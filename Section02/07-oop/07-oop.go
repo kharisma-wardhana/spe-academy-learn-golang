@@ -1,12 +1,12 @@
-package oop
+package main
 
 import (
 	"fmt"
 
-	LoginUseCase "github.com/kharisma-wardhana/spe-academy-learn-golang/Section02/07-oop/usecase/login"
-	RegisterUseCase "github.com/kharisma-wardhana/spe-academy-learn-golang/Section02/07-oop/usecase/register"
+	"github.com/kharisma-wardhana/spe-academy-learn-golang/Section02/07-oop/repository"
 
-	UserRepository "github.com/kharisma-wardhana/spe-academy-learn-golang/Section02/07-oop/repository"
+	LoginUseCase "github.com/kharisma-wardhana/spe-academy-learn-golang/Section02/07-oop/usecase"
+	RegisterUseCase "github.com/kharisma-wardhana/spe-academy-learn-golang/Section02/07-oop/usecase"
 )
 
 func main() {
@@ -14,13 +14,13 @@ func main() {
 	// You can initialize your application here, such as setting up routes,
 	// connecting to a database, or starting a server.
 
-	userRepo := UserRepository.NewUserRepository() // Assuming UserRepository is defined in the repository package
+	userRepo := repository.NewUserRepository() // Assuming UserRepository is defined in the repository package
 
 	// For example, you might want to create an instance of RegisterUseCase
 	// and call its RegisterUser method to register a new user.
 
 	registerUseCase := RegisterUseCase.NewRegisterUseCase(userRepo)
-	err := registerUseCase.RegisterUser("John Doe", "john.doe@email.com")
+	err := registerUseCase.RegisterUser("John Doe", "john.doe@email.com", "password123")
 	if err != nil {
 		fmt.Println("Error registering user:", err)
 	} else {

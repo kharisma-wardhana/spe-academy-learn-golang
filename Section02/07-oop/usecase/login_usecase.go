@@ -1,14 +1,18 @@
 package usecase
 
-import "errors"
+import (
+	"errors"
+
+	"github.com/kharisma-wardhana/spe-academy-learn-golang/Section02/07-oop/repository"
+)
 
 type LoginUseCase struct {
-	userRepository UserRepository // Assuming UserRepository is defined in the repository package
 	// Dependencies can be added here, such as repositories or services
+	userRepository repository.IUserRepository
 }
 
 // NewLoginUseCase creates a new instance of LoginUseCase
-func NewLoginUseCase(userRepo UserRepository) *LoginUseCase {
+func NewLoginUseCase(userRepo repository.IUserRepository) *LoginUseCase {
 	return &LoginUseCase{
 		// Initialize dependencies if needed
 		userRepository: userRepo,
