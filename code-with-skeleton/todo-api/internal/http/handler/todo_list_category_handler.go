@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	fiber "github.com/gofiber/fiber/v2"
-	"github.com/kharisma-wardhana/spe-academy-learn-golang/code-with-skeleton/todo-api/internal/http/middleware"
 	"github.com/kharisma-wardhana/spe-academy-learn-golang/code-with-skeleton/todo-api/internal/parser"
 	"github.com/kharisma-wardhana/spe-academy-learn-golang/code-with-skeleton/todo-api/internal/presenter/json"
 	todo_list_usecase "github.com/kharisma-wardhana/spe-academy-learn-golang/code-with-skeleton/todo-api/internal/usecase/todo_list"
@@ -26,11 +25,11 @@ func NewTodoListCategoryHandler(
 }
 
 func (w *TodoListCategoryHandler) Register(app fiber.Router) {
-	app.Get("/categories", middleware.VerifyJWTToken, w.GetAll)
-	app.Get("/categories/:id", middleware.VerifyJWTToken, w.GetByID)
-	app.Post("/categories", middleware.VerifyJWTToken, w.Create)
-	app.Put("/categories/:id", middleware.VerifyJWTToken, w.Update)
-	app.Delete("/categories/:id", middleware.VerifyJWTToken, w.Delete)
+	app.Get("/categories", w.GetAll)
+	app.Get("/categories/:id", w.GetByID)
+	app.Post("/categories", w.Create)
+	app.Put("/categories/:id", w.Update)
+	app.Delete("/categories/:id", w.Delete)
 }
 
 func (w *TodoListCategoryHandler) GetAll(c *fiber.Ctx) error {
