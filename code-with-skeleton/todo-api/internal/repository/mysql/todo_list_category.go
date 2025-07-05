@@ -57,22 +57,66 @@ func (r *TodoListCategoryRepository) GetAll(ctx context.Context) ([]*entity.Todo
 }
 
 func (r *TodoListCategoryRepository) GetByID(ctx context.Context, categoryID int64) (*entity.TodoListCategory, error) {
+	funcName := "TodoListCategoryRepository.GetByID"
+
+	if err := helper.CheckDeadline(ctx); err != nil {
+		return errwrap.Wrap(err, funcName)
+	}
+
 	var category entity.TodoListCategory
-	err := r.db.Raw("SELECT * FROM todo_list_categories WHERE id = ?", categoryID).Scan(&category).Error
+	err := r.db.Raw("SELECT * FROM todo_list_categories WHERE id = ? LIMIT 1", categoryID).Scan(&category).Error
 	if err != nil {
+		if errwrap.Is(err, gorm.ErrRecordNotFound) {
+			return nil, apperr.ErrRecordNotFound()
+		}
 		return nil, err
 	}
 	return &category, nil
 }
 
 func (r *TodoListCategoryRepository) Create(ctx context.Context, dbTrx TrxObj, category *entity.TodoListCategory) error {
-	return r.db.Create(category).Error
+	funcName := "TodoListCategoryRepository.Create"
+
+	if err := helper.CheckDeadline(ctx); err != nil {
+		return errwrap.Wrap(err, funcName)
+	}
+
+	cols := helper.NonZeroCols(category, nonZeroVal)
+	return r.Trx(dbTrx).Select(cols).Create(&category).Error
 }
 
 func (r *TodoListCategoryRepository) Update(ctx context.Context, dbTrx TrxObj, params *entity.TodoListCategory, category *entity.TodoListCategory) error {
-	return r.db.Save(category).Error
+	funcName := "TodoListCategoryRepository.Update"
+
+	if err := helper.CheckDeadline(ctx); err != nil {
+		return errwrap.Wrap(err, funcName)
+	}
+
+	db := r.Trx(dbTrx).Model(params)
+	if changes != nil {
+		err = db.Updates(*changes).Error
+	} else {
+		err = db.Updates(helper.StructToMap(params, false)).Error
+	}
+
+	if err != nil {
+		return errwrap.Wrap(err, funcName)
+	}
+
+	return nil
 }
 
 func (r *TodoListCategoryRepository) DeleteByID(ctx context.Context, dbTrx TrxObj, categoryID int64) error {
-	return r.db.Delete(&entity.TodoListCategory{}, categoryID).Error
+	funcName := "TodoListCategoryRepository.DeleteByID"
+
+	if err := helper.CheckDeadline(ctx); err != nil {
+		return errwrap.Wrap(err, funcName)
+	}
+
+	err := r.Trx(dbTrx).Where("id = ?", categoryID).Delete(&entity.TodoList{}).Error
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
