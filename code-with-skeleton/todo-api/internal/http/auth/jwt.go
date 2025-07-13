@@ -1,8 +1,8 @@
 package auth
 
 import (
+	_ "embed"
 	"fmt"
-	"os"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -12,10 +12,11 @@ import (
 	mentity "github.com/kharisma-wardhana/spe-academy-learn-golang/code-with-skeleton/todo-api/internal/repository/mysql/entity"
 )
 
-const (
-	privateKeyPath = "private_key.pem"
-	publicKeyPath  = "public_key.pem"
-)
+//go:embed private_key.pem
+var privateKeyBytes []byte
+
+//go:embed public_key.pem
+var publicKeyBytes []byte
 
 type JWT struct{}
 
@@ -28,12 +29,8 @@ type JWTAuth interface {
 }
 
 func (j *JWT) GenerateToken(user *mentity.User) (string, error) {
-	cfg := config.NewConfig()
 
-	privateKeyBytes, err := os.ReadFile(privateKeyPath)
-	if err != nil {
-		return "", err
-	}
+	cfg := config.NewConfig()
 
 	privateKey, err := jwt.ParseRSAPrivateKeyFromPEM(privateKeyBytes)
 	if err != nil {
@@ -65,11 +62,6 @@ func VerifyToken(c *fiber.Ctx) error {
 	}
 
 	token := authHeader[7:]
-
-	publicKeyBytes, err := os.ReadFile(publicKeyPath)
-	if err != nil {
-		return err
-	}
 
 	publicKey, err := jwt.ParseRSAPublicKeyFromPEM(publicKeyBytes)
 	if err != nil {
