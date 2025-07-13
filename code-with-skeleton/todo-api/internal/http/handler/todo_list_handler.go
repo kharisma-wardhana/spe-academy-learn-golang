@@ -70,7 +70,7 @@ func (w *TodoListHandler) GetByID(c *fiber.Ctx) error {
 // @Failure			401 {object} entity.CustomErrorResponse "Unauthorized"
 // @Failure			422 {object} entity.CustomErrorResponse "Invalid Request Body"
 // @Failure			500 {object} entity.CustomErrorResponse "Internal server Error"
-// @Router			/api/v1/todo-list [get]
+// @Router			/api/v1/todo-lists [get]
 func (w *TodoListHandler) GetByUserID(c *fiber.Ctx) error {
 	userID, err := w.parser.ParserUserID(c)
 	if err != nil {

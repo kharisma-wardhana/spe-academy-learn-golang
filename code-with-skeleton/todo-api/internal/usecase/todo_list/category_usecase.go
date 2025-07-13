@@ -84,8 +84,7 @@ func (c *CategoryUsecase) GetCategoryByID(ctx context.Context, categoryID int64)
 func (c *CategoryUsecase) CreateCategory(ctx context.Context, categoryReq entity.CategoryReq) (*entity.CategoryResponse, error) {
 	funcName := "CategoryUsecase.CreateCategory"
 	captureFieldError := generalEntity.CaptureFields{
-		"name":        categoryReq.Name,
-		"description": categoryReq.Description,
+		"payload": helper.ToString(categoryReq),
 	}
 
 	if errMsg := usecase.ValidateStruct(categoryReq); errMsg != "" {
@@ -96,9 +95,10 @@ func (c *CategoryUsecase) CreateCategory(ctx context.Context, categoryReq entity
 		Name:        categoryReq.Name,
 		Description: categoryReq.Description,
 		CreatedAt:   helper.DatetimeNowJakarta(),
+		CreatedBy:   categoryReq.CreatedBy,
 	}
 
-	if err := c.categoryRepo.Create(ctx, nil, category); err != nil {
+	if err := c.categoryRepo.Create(ctx, nil, category, false); err != nil {
 		helper.LogError("categoryRepo.Create", funcName, err, captureFieldError, "")
 		if errwrap.Is(err, gorm.ErrDuplicatedKey) {
 			return nil, errwrap.Wrap(apperr.ErrInvalidRequest(), "category already exists")
@@ -112,6 +112,7 @@ func (c *CategoryUsecase) CreateCategory(ctx context.Context, categoryReq entity
 		Name:        category.Name,
 		Description: category.Description,
 		CreatedAt:   helper.ConvertToJakartaTime(category.CreatedAt),
+		CreatedBy:   category.CreatedBy,
 	}, nil
 }
 

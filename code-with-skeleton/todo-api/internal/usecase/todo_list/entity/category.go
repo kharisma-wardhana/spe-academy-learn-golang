@@ -5,7 +5,7 @@ type CategoryReq struct {
 	ID          int64  `json:"id,omitempty" swaggerignore:"true"`
 	Name        string `json:"name,omitempty" validate:"required" name:"Nama Kategori"`
 	Description string `json:"description,omitempty" validate:"required" name:"Deskripsi Kategori"`
-	CreatedBy   string `json:"created_by,omitempty" swaggerignore:"true"`
+	CreatedBy   int64  `json:"created_by,omitempty" swaggerignore:"true"`
 }
 
 // CategoryResponse represents the response structure for a Todo List Category.
@@ -14,5 +14,13 @@ type CategoryResponse struct {
 	Name        string `json:"name"`
 	Description string `json:"description"`
 	CreatedAt   string `json:"created_at"`
-	CreatedBy   string `json:"created_by"`
+	CreatedBy   int64  `json:"created_by"`
+}
+
+func (r *CategoryReq) SetID(ID int64) {
+	r.ID = ID
+}
+
+func (r *CategoryReq) SetUserID(UserID int64) {
+	r.CreatedBy = UserID
 }

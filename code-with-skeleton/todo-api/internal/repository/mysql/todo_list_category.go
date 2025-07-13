@@ -16,7 +16,7 @@ type ITodoListCategoryRepository interface {
 	LockByID(ctx context.Context, dbTrx TrxObj, categoryID int64) (*entity.TodoListCategory, error)
 	GetAll(ctx context.Context) ([]*entity.TodoListCategory, error)
 	GetByID(ctx context.Context, categoryID int64) (*entity.TodoListCategory, error)
-	Create(ctx context.Context, dbTrx TrxObj, category *entity.TodoListCategory) error
+	Create(ctx context.Context, dbTrx TrxObj, category *entity.TodoListCategory, nonZeroVal bool) error
 	Update(ctx context.Context, dbTrx TrxObj, params *entity.TodoListCategory, category *entity.TodoListCategory) error
 	DeleteByID(ctx context.Context, dbTrx TrxObj, categoryID int64) error
 }
@@ -60,7 +60,7 @@ func (r *TodoListCategoryRepository) GetByID(ctx context.Context, categoryID int
 	funcName := "TodoListCategoryRepository.GetByID"
 
 	if err := helper.CheckDeadline(ctx); err != nil {
-		return errwrap.Wrap(err, funcName)
+		return nil, errwrap.Wrap(err, funcName)
 	}
 
 	var category entity.TodoListCategory
@@ -74,7 +74,7 @@ func (r *TodoListCategoryRepository) GetByID(ctx context.Context, categoryID int
 	return &category, nil
 }
 
-func (r *TodoListCategoryRepository) Create(ctx context.Context, dbTrx TrxObj, category *entity.TodoListCategory) error {
+func (r *TodoListCategoryRepository) Create(ctx context.Context, dbTrx TrxObj, category *entity.TodoListCategory, nonZeroVal bool) error {
 	funcName := "TodoListCategoryRepository.Create"
 
 	if err := helper.CheckDeadline(ctx); err != nil {
@@ -85,7 +85,7 @@ func (r *TodoListCategoryRepository) Create(ctx context.Context, dbTrx TrxObj, c
 	return r.Trx(dbTrx).Select(cols).Create(&category).Error
 }
 
-func (r *TodoListCategoryRepository) Update(ctx context.Context, dbTrx TrxObj, params *entity.TodoListCategory, category *entity.TodoListCategory) error {
+func (r *TodoListCategoryRepository) Update(ctx context.Context, dbTrx TrxObj, params *entity.TodoListCategory, changes *entity.TodoListCategory) (err error) {
 	funcName := "TodoListCategoryRepository.Update"
 
 	if err := helper.CheckDeadline(ctx); err != nil {

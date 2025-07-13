@@ -1,4 +1,27 @@
 definitions:
+  entity.CategoryReq:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    required:
+    - description
+    - name
+    type: object
+  entity.CategoryResponse:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
   entity.CreateUserReq:
     properties:
       email:
@@ -223,12 +246,49 @@ paths:
       summary: Create User as Guest
       tags:
       - Auth
-  /api/v1/todo-list:
+  /api/v1/categories:
     get:
       consumes:
       - application/json
-      description: Retrieve a list of Todo Lists belonging to a user by their User
-        ID
+      description: Get all Todo List Categories
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/entity.GeneralResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/entity.CategoryResponse'
+                  type: array
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/entity.CustomErrorResponse'
+        "500":
+          description: Internal server Error
+          schema:
+            $ref: '#/definitions/entity.CustomErrorResponse'
+      security:
+      - Bearer: []
+      summary: Get All Todo List Categories
+      tags:
+      - Todo List Category
+    post:
+      consumes:
+      - application/json
+      description: Create a new Todo List Category
+      parameters:
+      - description: Payload Request Body
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/entity.CategoryReq'
       produces:
       - application/json
       responses:
@@ -239,9 +299,7 @@ paths:
             - $ref: '#/definitions/entity.GeneralResponse'
             - properties:
                 data:
-                  items:
-                    $ref: '#/definitions/entity.TodoListResponse'
-                  type: array
+                  $ref: '#/definitions/entity.CategoryResponse'
               type: object
         "401":
           description: Unauthorized
@@ -257,9 +315,124 @@ paths:
             $ref: '#/definitions/entity.CustomErrorResponse'
       security:
       - Bearer: []
-      summary: Retrieve Todo Lists by User ID
+      summary: Create Todo List Category
       tags:
-      - Todo List
+      - Todo List Category
+  /api/v1/categories/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a Todo List Category by its ID
+      parameters:
+      - description: ID of the Todo List Category
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/entity.GeneralResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/entity.CustomErrorResponse'
+        "422":
+          description: Invalid Request Body
+          schema:
+            $ref: '#/definitions/entity.CustomErrorResponse'
+        "500":
+          description: Internal server Error
+          schema:
+            $ref: '#/definitions/entity.CustomErrorResponse'
+      security:
+      - Bearer: []
+      summary: Delete Todo List Category by ID
+      tags:
+      - Todo List Category
+    get:
+      consumes:
+      - application/json
+      description: Get a Todo List Category by its ID
+      parameters:
+      - description: ID of the Todo List Category
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/entity.GeneralResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.CategoryResponse'
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/entity.CustomErrorResponse'
+        "422":
+          description: Invalid Request Body
+          schema:
+            $ref: '#/definitions/entity.CustomErrorResponse'
+        "500":
+          description: Internal server Error
+          schema:
+            $ref: '#/definitions/entity.CustomErrorResponse'
+      security:
+      - Bearer: []
+      summary: Get Todo List Category by ID
+      tags:
+      - Todo List Category
+    put:
+      consumes:
+      - application/json
+      description: Update an existing Todo List Category by its ID
+      parameters:
+      - description: ID of the Todo List Category
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Payload Request Body
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/entity.CategoryReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/entity.GeneralResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/entity.CustomErrorResponse'
+        "422":
+          description: Invalid Request Body
+          schema:
+            $ref: '#/definitions/entity.CustomErrorResponse'
+        "500":
+          description: Internal server Error
+          schema:
+            $ref: '#/definitions/entity.CustomErrorResponse'
+      security:
+      - Bearer: []
+      summary: Update Todo List Category by ID
+      tags:
+      - Todo List Category
+  /api/v1/todo-list:
     post:
       consumes:
       - application/json
@@ -338,6 +511,43 @@ paths:
       security:
       - Bearer: []
       summary: Update an existing Todo List by ID
+      tags:
+      - Todo List
+  /api/v1/todo-lists:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a list of Todo Lists belonging to a user by their User
+        ID
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/entity.GeneralResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/entity.TodoListResponse'
+                  type: array
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/entity.CustomErrorResponse'
+        "422":
+          description: Invalid Request Body
+          schema:
+            $ref: '#/definitions/entity.CustomErrorResponse'
+        "500":
+          description: Internal server Error
+          schema:
+            $ref: '#/definitions/entity.CustomErrorResponse'
+      security:
+      - Bearer: []
+      summary: Retrieve Todo Lists by User ID
       tags:
       - Todo List
   /api/v1/todo-lists/{id}:

@@ -185,14 +185,14 @@
                 }
             }
         },
-        "/api/v1/todo-list": {
+        "/api/v1/categories": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Retrieve a list of Todo Lists belonging to a user by their User ID",
+                "description": "Get all Todo List Categories",
                 "consumes": [
                     "application/json"
                 ],
@@ -200,11 +200,11 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Todo List"
+                    "Todo List Category"
                 ],
-                "summary": "Retrieve Todo Lists by User ID",
+                "summary": "Get All Todo List Categories",
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "Success",
                         "schema": {
                             "allOf": [
@@ -217,8 +217,136 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/entity.TodoListResponse"
+                                                "$ref": "#/definitions/entity.CategoryResponse"
                                             }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/entity.CustomErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server Error",
+                        "schema": {
+                            "$ref": "#/definitions/entity.CustomErrorResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create a new Todo List Category",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Todo List Category"
+                ],
+                "summary": "Create Todo List Category",
+                "parameters": [
+                    {
+                        "description": "Payload Request Body",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.CategoryReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/entity.GeneralResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/entity.CategoryResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/entity.CustomErrorResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid Request Body",
+                        "schema": {
+                            "$ref": "#/definitions/entity.CustomErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server Error",
+                        "schema": {
+                            "$ref": "#/definitions/entity.CustomErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/categories/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get a Todo List Category by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Todo List Category"
+                ],
+                "summary": "Get Todo List Category by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID of the Todo List Category",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/entity.GeneralResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/entity.CategoryResponse"
                                         }
                                     }
                                 }
@@ -245,6 +373,123 @@
                     }
                 }
             },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update an existing Todo List Category by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Todo List Category"
+                ],
+                "summary": "Update Todo List Category by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID of the Todo List Category",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Payload Request Body",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.CategoryReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/entity.GeneralResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/entity.CustomErrorResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid Request Body",
+                        "schema": {
+                            "$ref": "#/definitions/entity.CustomErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server Error",
+                        "schema": {
+                            "$ref": "#/definitions/entity.CustomErrorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete a Todo List Category by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Todo List Category"
+                ],
+                "summary": "Delete Todo List Category by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID of the Todo List Category",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/entity.GeneralResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/entity.CustomErrorResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid Request Body",
+                        "schema": {
+                            "$ref": "#/definitions/entity.CustomErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server Error",
+                        "schema": {
+                            "$ref": "#/definitions/entity.CustomErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/todo-list": {
             "put": {
                 "security": [
                     {
@@ -348,6 +593,67 @@
                                     "properties": {
                                         "data": {
                                             "$ref": "#/definitions/entity.TodoListReq"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/entity.CustomErrorResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid Request Body",
+                        "schema": {
+                            "$ref": "#/definitions/entity.CustomErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server Error",
+                        "schema": {
+                            "$ref": "#/definitions/entity.CustomErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/todo-lists": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a list of Todo Lists belonging to a user by their User ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Todo List"
+                ],
+                "summary": "Retrieve Todo Lists by User ID",
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/entity.GeneralResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/entity.TodoListResponse"
+                                            }
                                         }
                                     }
                                 }
@@ -497,6 +803,41 @@
         }
     },
     "definitions": {
+        "entity.CategoryReq": {
+            "type": "object",
+            "required": [
+                "description",
+                "name"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "entity.CategoryResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "entity.CreateUserReq": {
             "type": "object",
             "required": [
