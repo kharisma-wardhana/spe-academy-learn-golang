@@ -17,10 +17,9 @@ import (
 	"github.com/kharisma-wardhana/spe-academy-learn-golang/final-project/config"
 	_ "github.com/kharisma-wardhana/spe-academy-learn-golang/final-project/docs"
 	"github.com/kharisma-wardhana/spe-academy-learn-golang/final-project/entity"
-	"github.com/kharisma-wardhana/spe-academy-learn-golang/final-project/internal/http/auth"
 	"github.com/kharisma-wardhana/spe-academy-learn-golang/final-project/internal/parser"
 	"github.com/kharisma-wardhana/spe-academy-learn-golang/final-project/internal/presenter/json"
-	"github.com/kharisma-wardhana/spe-academy-learn-golang/final-project/internal/usecase"
+	"github.com/kharisma-wardhana/spe-academy-learn-golang/final-project/internal/usecase/log"
 
 	"go.uber.org/zap"
 
@@ -80,12 +79,11 @@ func main() {
 	}
 
 	// AUTH : Write authetincation mechanism method (JWT, Basic Auth, etc.)
-	jwtAuth := auth.NewJWTAuth()
 
 	// REPOSITORY : Write repository code here (database, cache, etc.)
 
 	// USECASE : Write bussines logic code here (validation, business logic, etc.)
-	_ = usecase.NewLogUsecase(queue, logger)
+	_ = log.NewLogUsecase(queue, logger)
 
 	api := app.Group("/api/v1")
 

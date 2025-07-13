@@ -21,7 +21,6 @@ require (
 	github.com/stretchr/testify v1.10.0
 	github.com/subosito/gotenv v1.4.2
 	github.com/swaggo/swag v1.16.3
-	github.com/valyala/fasthttp v1.51.0
 	go.mongodb.org/mongo-driver v1.11.7
 	go.uber.org/zap v1.27.0
 	golang.org/x/crypto v0.39.0
@@ -78,6 +77,7 @@ require (
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.3.0 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
+	github.com/valyala/fasthttp v1.51.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
 	github.com/xdg-go/scram v1.1.1 // indirect
