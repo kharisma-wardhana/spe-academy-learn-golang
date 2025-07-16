@@ -6,8 +6,8 @@ import (
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
-	apperr "github.com/kharisma-wardhana/spe-academy-learn-golang/code-with-skeleton/todo-api/error"
-	"github.com/kharisma-wardhana/spe-academy-learn-golang/code-with-skeleton/todo-api/internal/helper"
+	apperr "github.com/kharisma-wardhana/spe-academy-learn-golang/try-consumer-rabbitmq/todo-api/error"
+	"github.com/kharisma-wardhana/spe-academy-learn-golang/try-consumer-rabbitmq/todo-api/internal/helper"
 )
 
 type WithPathID interface {

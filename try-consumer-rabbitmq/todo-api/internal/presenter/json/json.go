@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/kharisma-wardhana/spe-academy-learn-golang/code-with-skeleton/todo-api/entity"
-	apperr "github.com/kharisma-wardhana/spe-academy-learn-golang/code-with-skeleton/todo-api/error"
+	"github.com/kharisma-wardhana/spe-academy-learn-golang/try-consumer-rabbitmq/todo-api/entity"
+	apperr "github.com/kharisma-wardhana/spe-academy-learn-golang/try-consumer-rabbitmq/todo-api/error"
 
 	"github.com/gofiber/fiber/v2"
 )

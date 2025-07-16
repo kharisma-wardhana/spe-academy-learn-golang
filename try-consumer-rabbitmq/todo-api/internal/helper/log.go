@@ -5,8 +5,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/kharisma-wardhana/spe-academy-learn-golang/code-with-skeleton/todo-api/config"
-	"github.com/kharisma-wardhana/spe-academy-learn-golang/code-with-skeleton/todo-api/entity"
+	"github.com/kharisma-wardhana/spe-academy-learn-golang/try-consumer-rabbitmq/todo-api/config"
+	"github.com/kharisma-wardhana/spe-academy-learn-golang/try-consumer-rabbitmq/todo-api/entity"
 	"go.uber.org/zap"
 )
 

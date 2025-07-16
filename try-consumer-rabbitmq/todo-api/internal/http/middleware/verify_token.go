@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"github.com/gofiber/fiber/v2"
-	apperr "github.com/kharisma-wardhana/spe-academy-learn-golang/code-with-skeleton/todo-api/error"
-	"github.com/kharisma-wardhana/spe-academy-learn-golang/code-with-skeleton/todo-api/internal/http/auth"
+	apperr "github.com/kharisma-wardhana/spe-academy-learn-golang/try-consumer-rabbitmq/todo-api/error"
+	"github.com/kharisma-wardhana/spe-academy-learn-golang/try-consumer-rabbitmq/todo-api/internal/http/auth"
 )
 
 func VerifyJWTToken(c *fiber.Ctx) error {

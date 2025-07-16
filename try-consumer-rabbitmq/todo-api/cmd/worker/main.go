@@ -7,12 +7,10 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/kharisma-wardhana/spe-academy-learn-golang/code-with-skeleton/todo-api/config"
-	"github.com/kharisma-wardhana/spe-academy-learn-golang/code-with-skeleton/todo-api/internal/queue"
-	"github.com/kharisma-wardhana/spe-academy-learn-golang/code-with-skeleton/todo-api/internal/queue/consumer"
-	"github.com/kharisma-wardhana/spe-academy-learn-golang/code-with-skeleton/todo-api/internal/repository/mongodb"
+	"github.com/kharisma-wardhana/spe-academy-learn-golang/try-consumer-rabbitmq/todo-api/config"
+	"github.com/kharisma-wardhana/spe-academy-learn-golang/try-consumer-rabbitmq/todo-api/internal/queue"
+	"github.com/kharisma-wardhana/spe-academy-learn-golang/try-consumer-rabbitmq/todo-api/internal/queue/consumer"
 	"github.com/subosito/gotenv"
-	"go.mongodb.org/mongo-driver/mongo"
 )
 
 func init() {
@@ -20,9 +18,8 @@ func init() {
 }
 
 type GoSkeletonWorker struct {
-	ctx     context.Context
-	mongoDB *mongo.Database
-	queue   queue.Queue
+	ctx   context.Context
+	queue queue.Queue
 }
 
 func main() {
@@ -38,12 +35,6 @@ func main() {
 	app.ctx = context.Background()
 	cfg := config.NewConfig()
 
-	app.mongoDB, err = config.NewMongodb(app.ctx, &cfg.MongodbOption)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer app.mongoDB.Client().Disconnect(app.ctx)
-
 	// gormLogger := config.NewGormLogConfig(&cfg.MysqlOption)
 	// mysqlDB, err := config.NewMysql(cfg.AppEnv, &cfg.MysqlOption, gormLogger)
 	// if err != nil {
@@ -56,11 +47,10 @@ func main() {
 	}
 
 	// MongoDB Repository
-	logMongoRepo := mongodb.NewLogRepository(app.mongoDB)
+	// logMongoRepo := mongodb.NewLogRepository(app.mongoDB)
 
 	// Consumer
-	logConsumer := consumer.NewLogConsumer(context.Background(), logMongoRepo)
-	exampleConsumer := consumer.NewExampleConsumer(context.Background(), logMongoRepo)
+	logConsumer := consumer.NewLogConsumer(context.Background())
 
 	var interrupt = make(chan os.Signal, 1)
 	signal.Notify(interrupt, os.Interrupt, syscall.SIGTERM)
@@ -69,9 +59,6 @@ func main() {
 	case queue.ProcessSyncLog:
 		log.Printf("[Worker] Listening to %v", queue.ProcessSyncLog)
 		go app.queue.HandleConsumedDeliveries(queue.ProcessSyncLog, logConsumer.ProcessSyncLog)
-	case queue.ProcessExample:
-		log.Printf("[Worker] Listening to %v", queue.ProcessExample)
-		go app.queue.HandleConsumedDeliveries(queue.ProcessExample, exampleConsumer.Process)
 	default:
 		log.Fatalf("[Worker] topic not found : %v", os.Args[1])
 	}

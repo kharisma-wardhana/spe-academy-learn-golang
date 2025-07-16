@@ -3,17 +3,12 @@ package consumer
 import (
 	"context"
 	"fmt"
-	"time"
 
-	"github.com/kharisma-wardhana/spe-academy-learn-golang/code-with-skeleton/todo-api/entity"
-	"github.com/kharisma-wardhana/spe-academy-learn-golang/code-with-skeleton/todo-api/internal/helper"
-	mongoRepo "github.com/kharisma-wardhana/spe-academy-learn-golang/code-with-skeleton/todo-api/internal/repository/mongodb"
-	moentity "github.com/kharisma-wardhana/spe-academy-learn-golang/code-with-skeleton/todo-api/internal/repository/mongodb/entity"
+	"github.com/kharisma-wardhana/spe-academy-learn-golang/try-consumer-rabbitmq/todo-api/entity"
 )
 
 type LogQueue struct {
-	ctx          context.Context
-	logMongoRepo mongoRepo.LogRepository
+	ctx context.Context
 }
 
 type LogConsumer interface {
@@ -22,35 +17,13 @@ type LogConsumer interface {
 
 func NewLogConsumer(
 	ctx context.Context,
-	logMongoRepo mongoRepo.LogRepository,
 ) LogConsumer {
-	return &LogQueue{ctx, logMongoRepo}
+	return &LogQueue{ctx}
 }
 
 func (l *LogQueue) ProcessSyncLog(payload map[string]interface{}) error {
 	var params entity.Log
 	params.LoadFromMap(payload)
-
-	var executionTime string
-	if params.LogFields["execution_time"] != "" {
-		executionTime = params.LogFields["execution_time"]
-	}
-
-	err := l.logMongoRepo.Create(l.ctx, moentity.LogCollection{
-		Status:        string(params.Status),
-		FuncName:      params.FuncName,
-		ErrorMessage:  params.ErrorMessage,
-		Process:       params.Process,
-		LogFields:     params.LogFields,
-		Created:       time.Now().UTC().Add(7 * time.Hour),
-		ExecutionTime: helper.ToInt(executionTime),
-	})
-
-	if err != nil {
-		fmt.Println("FAILED CREATE LOG TO MONGODB")
-
-		return err
-	}
 
 	fmt.Println("SYNC SUCCESS!")
 	fmt.Println(params)

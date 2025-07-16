@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/kharisma-wardhana/spe-academy-learn-golang/code-with-skeleton/todo-api/entity"
+	"github.com/kharisma-wardhana/spe-academy-learn-golang/try-consumer-rabbitmq/todo-api/entity"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )

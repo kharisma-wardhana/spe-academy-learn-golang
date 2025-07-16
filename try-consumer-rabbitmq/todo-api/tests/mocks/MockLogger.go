@@ -1,6 +1,6 @@
 package mocks
 
-import entity "github.com/kharisma-wardhana/spe-academy-learn-golang/code-with-skeleton/todo-api/entity"
+import entity "github.com/kharisma-wardhana/spe-academy-learn-golang/try-consumer-rabbitmq/todo-api/entity"
 
 type MockLogger struct {
 	LogErrorFunc func(processName string, funcName string, err error, logFields entity.CaptureFields, message string)

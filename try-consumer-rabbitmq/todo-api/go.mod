@@ -1,4 +1,4 @@
-module github.com/kharisma-wardhana/spe-academy-learn-golang/code-with-skeleton/todo-api
+module github.com/kharisma-wardhana/spe-academy-learn-golang/try-consumer-rabbitmq/todo-api
 
 go 1.24.2
 

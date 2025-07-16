@@ -3,8 +3,8 @@ package mongodb
 import (
 	"context"
 
-	"github.com/kharisma-wardhana/spe-academy-learn-golang/code-with-skeleton/todo-api/internal/helper"
-	"github.com/kharisma-wardhana/spe-academy-learn-golang/code-with-skeleton/todo-api/internal/repository/mongodb/entity"
+	"github.com/kharisma-wardhana/spe-academy-learn-golang/try-consumer-rabbitmq/todo-api/internal/helper"
+	"github.com/kharisma-wardhana/spe-academy-learn-golang/try-consumer-rabbitmq/todo-api/internal/repository/mongodb/entity"
 	errwrap "github.com/pkg/errors"
 	"go.mongodb.org/mongo-driver/mongo"
 )

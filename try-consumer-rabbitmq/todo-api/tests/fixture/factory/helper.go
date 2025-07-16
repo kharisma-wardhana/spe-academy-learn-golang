@@ -6,7 +6,7 @@ import (
 	"sort"
 	"sync"
 
-	"github.com/kharisma-wardhana/spe-academy-learn-golang/code-with-skeleton/todo-api/internal/helper"
+	"github.com/kharisma-wardhana/spe-academy-learn-golang/try-consumer-rabbitmq/todo-api/internal/helper"
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"gorm.io/gorm/schema"

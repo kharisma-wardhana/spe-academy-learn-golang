@@ -4,7 +4,7 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/kharisma-wardhana/spe-academy-learn-golang/code-with-skeleton/todo-api/internal/repository/mysql/entity"
+	"github.com/kharisma-wardhana/spe-academy-learn-golang/try-consumer-rabbitmq/todo-api/internal/repository/mysql/entity"
 
 	"github.com/google/uuid"
 )

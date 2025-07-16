@@ -57,7 +57,7 @@ Feel free to contribute to this repository if you'd like!
 1. Clone this repo
 
 ```sh
-git clone https://github.com/kharisma-wardhana/spe-academy-learn-golang/code-with-skeleton/todo-api.git
+git clone https://github.com/kharisma-wardhana/spe-academy-learn-golang/try-consumer-rabbitmq/todo-api.git
 ```
 
 2. Copy `example.env` to `.env`
