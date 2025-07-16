@@ -25,7 +25,7 @@ type GormTrxSupportTestSuite struct {
 	suite.Suite
 	mock sqlmock.Sqlmock
 	db   *sql.DB
-	repo *mysql.User
+	repo *mysql.AccountRepository
 	d    *GormTrxSupportTestData
 }
 
@@ -52,13 +52,13 @@ func (s *GormTrxSupportTestSuite) SetupTest() {
 
 	dialector := gmysql.New(gmysql.Config{Conn: s.db, SkipInitializeWithVersion: true})
 	gormDB, _ := gorm.Open(dialector, &gorm.Config{})
-	s.repo = mysql.NewUserRepository(&config.Mysql{DB: gormDB})
+	s.repo = mysql.NewAccountRepository(&config.Mysql{DB: gormDB})
 	s.d = &GormTrxSupportTestData{}
 }
 
 func (s *GormTrxSupportTestSuite) setupValidData() {
 	s.d.ctx, s.d.cancel = context.WithDeadline(context.Background(), time.Now().Add(time.Hour))
-	fakeData := &entity.User{}
+	fakeData := &entity.AccountEntity{}
 	if err := faker.FakeData(fakeData); err != nil {
 		s.FailNowf("an error '%s' was no expected when trying to create fake data", err.Error())
 	}
@@ -107,7 +107,7 @@ func (s *GormTrxSupportTestSuite) TestTrx() {
 // DB Transaction Test
 type DBTransactionTestSuite struct {
 	suite.Suite
-	repo *mocks.UserRepository
+	repo *mocks.AccountRepository
 	trx  *mocks.TrxObj
 }
 
@@ -116,7 +116,7 @@ func TestDBTransaction(t *testing.T) {
 }
 
 func (s *DBTransactionTestSuite) SetupTest() {
-	s.repo = &mocks.UserRepository{}
+	s.repo = &mocks.AccountRepository{}
 	s.trx = &mocks.TrxObj{}
 }
 

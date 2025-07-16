@@ -1,4 +1,4 @@
-package log
+package usecase_log_test
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 
 	"github.com/kharisma-wardhana/spe-academy-learn-golang/final-project/config"
 	"github.com/kharisma-wardhana/spe-academy-learn-golang/final-project/entity"
-	"github.com/kharisma-wardhana/spe-academy-learn-golang/final-project/internal/usecase"
+	usecase_log "github.com/kharisma-wardhana/spe-academy-learn-golang/final-project/internal/usecase/log"
 	"github.com/kharisma-wardhana/spe-academy-learn-golang/final-project/tests/mocks"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/suite"
@@ -16,7 +16,7 @@ import (
 type LogUsecaseTestSuite struct {
 	suite.Suite
 
-	usecase   usecase.LogUsecase
+	usecase   usecase_log.LogUsecase
 	queue     *mocks.Queue
 	zapLogger *zap.Logger
 }
@@ -25,7 +25,7 @@ func (s *LogUsecaseTestSuite) SetupTest() {
 	s.queue = &mocks.Queue{}
 	s.zapLogger, _ = config.NewZapLog("dev")
 
-	s.usecase = usecase.NewLogUsecase(s.queue, s.zapLogger)
+	s.usecase = usecase_log.NewLogUsecase(s.queue, s.zapLogger)
 }
 
 func TestLogUsecase(t *testing.T) {

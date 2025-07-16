@@ -1,4 +1,4 @@
-package log
+package usecase_log
 
 import (
 	"errors"

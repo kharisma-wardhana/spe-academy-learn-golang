@@ -25,10 +25,10 @@ func NewJWTAuth() *JWT {
 }
 
 type JWTAuth interface {
-	GenerateToken(user *mentity.User) (string, error)
+	GenerateToken(account *mentity.AccountEntity) (string, error)
 }
 
-func (j *JWT) GenerateToken(user *mentity.User) (string, error) {
+func (j *JWT) GenerateToken(account *mentity.AccountEntity) (string, error) {
 
 	cfg := config.NewConfig()
 
@@ -41,9 +41,8 @@ func (j *JWT) GenerateToken(user *mentity.User) (string, error) {
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Duration(cfg.JwtExpireDaysCount) * 24 * time.Hour)),
 		},
-		Email:      user.Email,
-		UserID:     user.ID,
-		RoleAccess: user.Role,
+		AccountID:  account.ID,
+		MerchantID: account.MerchantID,
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodRS512, claims)
@@ -77,7 +76,7 @@ func VerifyToken(c *fiber.Ctx) error {
 	}
 
 	// Set data in Local Context
-	c.Locals("user_id", claims.UserID)
+	c.Locals("account_id", claims.AccountID)
 
 	return nil
 }

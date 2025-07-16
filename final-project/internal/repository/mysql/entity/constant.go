@@ -1,8 +1,16 @@
 package entity
 
-type RoleType uint8
+type QRType uint8
+
+type MerchantType uint8
+
+type TransactionType uint8
 
 const (
-	RoleTypeAdmin RoleType = 1
-	RoleTypeUser  RoleType = 2
+	QRTypeSticker          QRType          = 1
+	QRTypeAPI              QRType          = 2
+	MerchantTypeIndividual MerchantType    = 1
+	MerchantTypeCorporate  MerchantType    = 2
+	TransactionTypePayment TransactionType = 1
+	TransactionTypeRefund  TransactionType = 2
 )

@@ -17,9 +17,10 @@ import (
 	"github.com/kharisma-wardhana/spe-academy-learn-golang/final-project/config"
 	_ "github.com/kharisma-wardhana/spe-academy-learn-golang/final-project/docs"
 	"github.com/kharisma-wardhana/spe-academy-learn-golang/final-project/entity"
+	"github.com/kharisma-wardhana/spe-academy-learn-golang/final-project/internal/http/handler"
 	"github.com/kharisma-wardhana/spe-academy-learn-golang/final-project/internal/parser"
 	"github.com/kharisma-wardhana/spe-academy-learn-golang/final-project/internal/presenter/json"
-	"github.com/kharisma-wardhana/spe-academy-learn-golang/final-project/internal/usecase/log"
+	usecase_log "github.com/kharisma-wardhana/spe-academy-learn-golang/final-project/internal/usecase/log"
 
 	"go.uber.org/zap"
 
@@ -83,11 +84,14 @@ func main() {
 	// REPOSITORY : Write repository code here (database, cache, etc.)
 
 	// USECASE : Write bussines logic code here (validation, business logic, etc.)
-	_ = log.NewLogUsecase(queue, logger)
+	_ = usecase_log.NewLogUsecase(queue, logger)
 
 	api := app.Group("/api/v1")
 
 	// HANDLER : Write handler code here (HTTP, gRPC, etc.)
+	handler.NewAccountHandler(parser, presenterJson).Register(api)
+	handler.NewMerchantHandler(parser, presenterJson).Register(api)
+	handler.NewTransactionHandler(parser, presenterJson).Register(api)
 
 	app.Get("/health-check", healthCheck)
 	app.Get("/metrics", monitor.New())

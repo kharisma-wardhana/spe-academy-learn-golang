@@ -16,3 +16,8 @@ body:json {
     "password" : "qwerty"
   }
 }
+
+script:post-response {
+  const accessToken = res.body.data.access_token
+  bru.setEnvVar("accessToken", accessToken)
+}
